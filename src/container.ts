@@ -48,13 +48,13 @@ export class Container {
     if (!service) {
       throw new Error('Service not found!');
     }
+    if (service.metadata.type !== 'factory' && service.instance) {
+      return service.instance;
+    }
 
     const deps = service.dependencies.map(depName => this.get(depName));
     if (service.metadata.type === 'factory') {
       return new service.Class(...deps);
-    }
-    if (service.instance) {
-      return service.instance;
     }
     const instance = new service.Class(...deps);
     this.storage.set(name, {
