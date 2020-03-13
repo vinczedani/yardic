@@ -1,0 +1,32 @@
+{
+  "name": "yardic",
+  "version": "0.0.1",
+  "description": "Yet Another Dependecy Injection Container",
+  "main": "dist/container.js",
+  "types": "dist/container.d.ts",
+  "scripts": {
+    "test": "jest src",
+    "build": "tsc",
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinczedani/yadic.git"
+  },
+  "keywords": [
+    "dependency"
+  ],
+  "author": "Daniel Vincze, vinczedani22@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vinczedani/yadic/issues"
+  },
+  "homepage": "https://github.com/vinczedani/yadic#readme",
+  "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.3"
+  }
+}
