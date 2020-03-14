@@ -1,6 +1,6 @@
 {
   "name": "yardic",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Yet Another Dependecy Injection Container",
   "main": "dist/container.js",
   "types": "dist/container.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vinczedani/yadic.git"
+    "url": "git+https://github.com/vinczedani/yardic.git"
   },
   "keywords": [
     "dependency"
@@ -19,9 +19,9 @@
   "author": "Daniel Vincze, vinczedani22@gmail.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vinczedani/yadic/issues"
+    "url": "https://github.com/vinczedani/yardic/issues"
   },
-  "homepage": "https://github.com/vinczedani/yadic#readme",
+  "homepage": "https://github.com/vinczedani/yardic#readme",
   "devDependencies": {
     "@types/jest": "^25.1.4",
     "eslint": "^6.8.0",
