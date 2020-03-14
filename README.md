@@ -3,7 +3,7 @@ Yet AnotheR Dependency Injection Container
 
 Zero dep DI container for Javascript and Typescript
 
-![CI](https://github.com/vinczedani/yadic/workflows/CI/badge.svg)
+![CI](https://github.com/vinczedani/yardic/workflows/CI/badge.svg)
 
 # Install
 
