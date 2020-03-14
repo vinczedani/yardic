@@ -1,6 +1,6 @@
 {
   "name": "yardic",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Yet Another Dependecy Injection Container",
   "main": "dist/container.js",
   "types": "dist/container.d.ts",
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/vinczedani/yardic.git"
   },
   "keywords": [
-    "dependency"
+    "dependency", "injection", "container", "di container", "dependency injection", "dependency injection container"
   ],
   "author": "Daniel Vincze, vinczedani22@gmail.com",
   "license": "MIT",
