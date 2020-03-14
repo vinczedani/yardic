@@ -1,6 +1,6 @@
 {
   "name": "yardic",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Yet Another Dependecy Injection Container",
   "main": "dist/container.js",
   "types": "dist/container.d.ts",
@@ -17,7 +17,7 @@
     "dependency"
   ],
   "author": "Daniel Vincze, vinczedani22@gmail.com",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/vinczedani/yardic/issues"
   },
