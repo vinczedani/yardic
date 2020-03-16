@@ -15,7 +15,7 @@ class Foo {
 }
 
 describe('container', () => {
-  it('returns the same instace of a singleton', () => {
+  it('should return the same instace of a singleton', () => {
     const container = new Container();
     container.register(Foo);
 
@@ -25,7 +25,7 @@ describe('container', () => {
     expect(firstResult).toEqual(secondResult);
   });
 
-  it('returns Foo with the same Fizz', () => {
+  it('should return Foo with the same Fizz', () => {
     const container = new Container();
     container.register(Foo, ['Fizz', 'Bar'], { type: 'factory' });
     container.register(Fizz);
@@ -38,7 +38,7 @@ describe('container', () => {
     expect(firstFoo.fizz).toBe(secondFoo.fizz);
   });
 
-  it('returns Foo with the same Fizz even if Fizz is registered as a class', () => {
+  it('should return Foo with the same Fizz even if Fizz is registered as a class', () => {
     const container = new Container();
     container.register(Foo, [Fizz, 'Bar'], { type: 'factory' });
     container.register(Fizz);
@@ -51,7 +51,7 @@ describe('container', () => {
     expect(firstFoo.fizz).toBe(secondFoo.fizz);
   });
 
-  it('returns Foo with the same multiple dependencies', () => {
+  it('should return Foo with the same multiple dependencies', () => {
     const container = new Container();
     container.register(Foo, ['Fizz', 'Bar'], { type: 'factory' });
     container.register(Bar);
@@ -65,10 +65,41 @@ describe('container', () => {
     expect(firstFoo.bar).toBe(secondFoo.bar);
   });
 
-  it('throws error if invalid data type is given as a dependency', () => {
+  it('should throw error if invalid data type is given as a dependency', () => {
     expect(() => {
       const container = new Container();
       container.register(Foo, [{ invalid: 'type' } as any]);
     }).toThrowError(new Error('Invalid dependency type: object'));
+  });
+
+  it('should be able to set object', () => {
+    const container = new Container();
+    const testObject = {
+      randomFunction() {}
+    }
+    const name = 'test';
+    container.setObject(name, testObject);
+
+    const objectFromContainer = container.get(name);
+
+    expect(objectFromContainer).toBe(testObject);
+  });
+
+  it('should overwrite classes if same name is set', () => {
+    const container = new Container();
+    container.register(Fizz);
+    const fizzInstance = container.get(Fizz);
+
+    expect(fizzInstance instanceof Fizz).toBe(true);
+
+    const testObject = {
+      randomFunction() {}
+    }
+    container.setObject('Fizz', testObject);
+
+    const objectFromContainer = container.get(Fizz);
+
+    expect(objectFromContainer).toBe(testObject);
+    expect(objectFromContainer instanceof Fizz).toBe(false);
   });
 });

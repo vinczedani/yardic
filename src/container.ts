@@ -4,8 +4,11 @@ interface iServiceMetadata {
   type?: 'singleton' | 'factory',
 }
 
+interface iObject<T> {
+  instance: T
+}
+
 interface iService<T> {
-  name: string,
   Class: iClass<T>,
   dependencies: string[],
   metadata: iServiceMetadata,
@@ -13,9 +16,15 @@ interface iService<T> {
 }
 
 type descriptor<T> = string | iClass<T>;
+type iStoreable<T> = iObject<T> | iService<T>;
+
+function isService<T>(storeable: iStoreable<T>): storeable is iService<T> {
+  const service = <iService<T>>storeable;
+  return Array.isArray(service.dependencies) && service.Class && !!service.metadata;
+}
 
 export class Container {
-  storage: Map<string, iService<any>>;
+  storage: Map<string, iStoreable<any>>;
   constructor() {
     this.storage = new Map();
   }
@@ -27,11 +36,16 @@ export class Container {
       throw new Error(`Invalid dependency type: ${typeof dep}`);
     });
     this.storage.set(ServiceClass.name, {
-      name: ServiceClass.name,
       Class: ServiceClass,
       dependencies: dependencieStrings,
       metadata,
-    });
+    } as iService<T>);
+  }
+
+  setObject<T>(name: string, object: T): void {
+    this.storage.set(name, {
+      instance: object,
+    } as iObject<T>);
   }
 
   get<T>(descriptor: descriptor<T>): T {
@@ -41,15 +55,18 @@ export class Container {
     } else if (typeof descriptor === 'function') {
       name = descriptor.name;
     } else {
-      throw new Error('Invalid param provided for get.');
+      throw new Error('Invalid param provided for container.get.');
     }
-    const service: iService<T> | undefined = this.storage.get(name);
+    const service: iStoreable<T> | undefined = this.storage.get(name);
 
     if (!service) {
       throw new Error('Service not found!');
     }
-    if (service.metadata.type !== 'factory' && service.instance) {
+    if (service.instance) {
       return service.instance;
+    }
+    if (!isService(service)) {
+      throw new Error('Unexpected error');
     }
 
     const deps = service.dependencies.map(depName => this.get(depName));
