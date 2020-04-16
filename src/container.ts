@@ -1,25 +1,25 @@
-interface iClass<T> extends Function { new (...args: any[]): T; }
+interface iClass<T> extends Function { new (...args: any[]): T }
 
 interface iServiceMetadata {
-  type?: 'singleton' | 'factory',
+  type?: 'singleton' | 'factory';
 }
 
 interface iObject<T> {
-  instance: T
+  instance: T;
 }
 
 interface iService<T> {
-  Class: iClass<T>,
-  dependencies: string[],
-  metadata: iServiceMetadata,
-  instance?: T
+  Class: iClass<T>;
+  dependencies: string[];
+  metadata: iServiceMetadata;
+  instance?: T;
 }
 
 type descriptor<T> = string | iClass<T>;
 type iStoreable<T> = iObject<T> | iService<T>;
 
 function isService<T>(storeable: iStoreable<T>): storeable is iService<T> {
-  const service = <iService<T>>storeable;
+  const service = storeable as iService<T>;
   return Array.isArray(service.dependencies) && service.Class && !!service.metadata;
 }
 
@@ -70,7 +70,7 @@ export class Container {
     if (!service) {
       throw new Error('Service not found!');
     }
-    if (!(<iService<T>>service).Class && service.instance) {
+    if (!(service as iService<T>).Class && service.instance) {
       return JSON.parse(JSON.stringify(service.instance));
     }
     if (!isService(service)) {

@@ -75,7 +75,7 @@ describe('container', () => {
   it('should be able to set object', () => {
     const container = new Container();
     const testObject = {
-      randomFunction() {}
+      randomFunction() { return 1; }
     }
     const name = 'test';
     container.setValue(name, testObject);
@@ -104,7 +104,7 @@ describe('container', () => {
     expect(fizzInstance instanceof Fizz).toBe(true);
 
     const testObject = {
-      randomFunction() {}
+      randomFunction() { return 1; }
     }
     container.setValue('Fizz', testObject);
 

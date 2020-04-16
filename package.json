@@ -1,6 +1,6 @@
 {
   "name": "yardic",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Yet Another Dependecy Injection Container",
   "main": "dist/container.js",
   "types": "dist/container.d.ts",
@@ -8,6 +8,7 @@
     "test": "jest src",
     "build": "tsc",
     "prepublish": "tsc",
+    "lint": "eslint src --ext .ts",
     "demo": "npm run build && node example/example.js"
   },
   "repository": {
@@ -15,7 +16,12 @@
     "url": "git+https://github.com/vinczedani/yardic.git"
   },
   "keywords": [
-    "dependency", "injection", "container", "di container", "dependency injection", "dependency injection container"
+    "dependency",
+    "injection",
+    "container",
+    "di container",
+    "dependency injection",
+    "dependency injection container"
   ],
   "author": "Daniel Vincze, vinczedani22@gmail.com",
   "license": "MIT",
@@ -25,6 +31,8 @@
   "homepage": "https://github.com/vinczedani/yardic#readme",
   "devDependencies": {
     "@types/jest": "^25.1.4",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
     "ts-jest": "^25.2.1",
