@@ -1,13 +1,14 @@
 {
   "name": "yardic",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Yet Another Dependecy Injection Container",
   "main": "dist/container.js",
   "types": "dist/container.d.ts",
   "scripts": {
     "test": "jest src",
     "build": "tsc",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "demo": "npm run build && node example/example.js"
   },
   "repository": {
     "type": "git",

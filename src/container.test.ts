@@ -78,11 +78,22 @@ describe('container', () => {
       randomFunction() {}
     }
     const name = 'test';
-    container.setObject(name, testObject);
+    container.setValue(name, testObject);
 
     const objectFromContainer = container.get(name);
 
     expect(objectFromContainer).toBe(testObject);
+  });
+
+  it('should be able to set anything with setValue', () => {
+    const container = new Container();
+    const testString = 'secret'
+    const name = 'test';
+    container.setValue(name, testString);
+
+    const objectFromContainer = container.get(name);
+
+    expect(objectFromContainer).toBe(testString);
   });
 
   it('should overwrite classes if same name is set', () => {
@@ -95,11 +106,38 @@ describe('container', () => {
     const testObject = {
       randomFunction() {}
     }
-    container.setObject('Fizz', testObject);
+    container.setValue('Fizz', testObject);
 
     const objectFromContainer = container.get(Fizz);
 
     expect(objectFromContainer).toBe(testObject);
     expect(objectFromContainer instanceof Fizz).toBe(false);
+  });
+
+  it('should return a new instance, even for non factory services', () => {
+    const container = new Container();
+    container.register(Fizz);
+    const fizzInstance = container.getNew(Fizz);
+    const fizzInstance2 = container.getNew(Fizz);
+
+    expect(fizzInstance instanceof Fizz).toBe(true);
+    expect(fizzInstance).not.toBe(fizzInstance2);
+  });
+
+  it('should return deepCopied values as dependecies set by setValue() when using getNew', () => {
+    const container = new Container();
+    class TestClassWithConfig {
+      config: object;
+      constructor(config: object) {
+        this.config = config;
+      }
+    }
+    container.register(TestClassWithConfig, ['config']);
+    container.setValue('config', { some: 'testConfig' });
+
+    const instance = container.getNew(TestClassWithConfig);
+    const instance2 = container.getNew(TestClassWithConfig);
+
+    expect(instance.config).not.toBe(instance2.config);
   });
 });

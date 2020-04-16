@@ -23,10 +23,20 @@ function isService<T>(storeable: iStoreable<T>): storeable is iService<T> {
   return Array.isArray(service.dependencies) && service.Class && !!service.metadata;
 }
 
+function getNameFromDescriptor<T>(descriptor: descriptor<T>): string {
+  if (typeof descriptor === 'string') {
+    return descriptor;
+  }
+  if (typeof descriptor === 'function') {
+    return descriptor.name;
+  }
+  throw new Error('Invalid param provided for container.get.');
+}
+
 export class Container {
   storage: Map<string, iStoreable<any>>;
-  constructor() {
-    this.storage = new Map();
+  constructor(map = new Map()) {
+    this.storage = map;
   }
 
   register<T>(ServiceClass: iClass<T>, dependencies: descriptor<T>[] = [], metadata: iServiceMetadata = {}): void {
@@ -42,21 +52,39 @@ export class Container {
     } as iService<T>);
   }
 
-  setObject<T>(name: string, object: T): void {
+  setValue<T>(name: string, object: T): void {
     this.storage.set(name, {
       instance: object,
     } as iObject<T>);
   }
 
-  get<T>(descriptor: descriptor<T>): T {
-    let name;
-    if (typeof descriptor === 'string') {
-      name = descriptor;
-    } else if (typeof descriptor === 'function') {
-      name = descriptor.name;
-    } else {
-      throw new Error('Invalid param provided for container.get.');
+  clone(): Container {
+    return new Container(new Map(this.storage));
+  }
+
+  getNew<T>(descriptor: descriptor<T>): T {
+    const name = getNameFromDescriptor(descriptor);
+
+    const service: iStoreable<T> | undefined = this.storage.get(name);
+
+    if (!service) {
+      throw new Error('Service not found!');
     }
+    if (!(<iService<T>>service).Class && service.instance) {
+      return JSON.parse(JSON.stringify(service.instance));
+    }
+    if (!isService(service)) {
+      throw new Error('Unexpected error');
+    }
+
+
+    const deps = service.dependencies.map(depName => this.getNew(depName));
+    return new service.Class(...deps);
+  }
+
+  get<T>(descriptor: descriptor<T>): T {
+    const name = getNameFromDescriptor(descriptor);
+
     const service: iStoreable<T> | undefined = this.storage.get(name);
 
     if (!service) {
