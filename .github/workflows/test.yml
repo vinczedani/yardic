@@ -26,6 +26,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Linter
+      run: npm run lint
+
     # Runs a single command using the runners shell
     - name: Run tests
       run: npm test
