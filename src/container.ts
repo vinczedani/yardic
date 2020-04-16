@@ -71,7 +71,7 @@ export class Container {
       throw new Error('Service not found!');
     }
     if (!(service as iService<T>).Class && service.instance) {
-      return JSON.parse(JSON.stringify(service.instance));
+      return { ...service.instance };
     }
     if (!isService(service)) {
       throw new Error('Unexpected error');

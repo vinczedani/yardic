@@ -1,6 +1,6 @@
 {
   "name": "yardic",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Yet Another Dependecy Injection Container",
   "main": "dist/container.js",
   "types": "dist/container.d.ts",
