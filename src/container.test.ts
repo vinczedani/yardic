@@ -127,17 +127,17 @@ describe('container', () => {
   it('should return deepCopied values as dependecies set by setValue() when using getNew', () => {
     const container = new Container();
     class TestClassWithConfig {
-      config: object;
-      constructor(config: object) {
+      config: any;
+      constructor(config: any) {
         this.config = config;
       }
     }
     container.register(TestClassWithConfig, ['config']);
-    container.setValue('config', { some: 'testConfig' });
+    container.setValue('config', { some: { deep: 'stuff' } });
 
     const instance = container.getNew(TestClassWithConfig);
     const instance2 = container.getNew(TestClassWithConfig);
 
-    expect(instance.config).not.toBe(instance2.config);
+    expect(instance.config.some).not.toBe(instance2.config.some);
   });
 });

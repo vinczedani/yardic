@@ -23,6 +23,24 @@ function isService<T>(storeable: iStoreable<T>): storeable is iService<T> {
   return Array.isArray(service.dependencies) && service.Class && !!service.metadata;
 }
 
+function deepCopy(inObject: any): any {
+  if (typeof inObject !== "object" || inObject === null) {
+    return inObject // Return the value if inObject is not an object
+  }
+
+  // Create an array or object to hold the values
+  const outObject: any = Array.isArray(inObject) ? [] : {};
+
+  for (const key in inObject) {
+    const value = inObject[key];
+
+    // Recursively (deep) copy for nested objects, including arrays
+    outObject[key] = deepCopy(value);
+  }
+
+  return outObject;
+}
+
 function getNameFromDescriptor<T>(descriptor: descriptor<T>): string {
   if (typeof descriptor === 'string') {
     return descriptor;
@@ -71,7 +89,7 @@ export class Container {
       throw new Error('Service not found!');
     }
     if (!(service as iService<T>).Class && service.instance) {
-      return { ...service.instance };
+      return deepCopy(service.instance);
     }
     if (!isService(service)) {
       throw new Error('Unexpected error');

@@ -4,3 +4,4 @@ example
 jest.config.js
 src
 tsconfig.json
+*.test.js
